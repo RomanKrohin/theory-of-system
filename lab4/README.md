@@ -57,27 +57,3 @@
 ```
 
 2. Использовать метод наименьших квадратов (`scipy.optimize.leastsq`), чтобы подобрать параметры, минимизирующие ошибку между моделью и данными.
-
-## Исходный код
-```python
-import numpy as np
-from scipy import integrate, optimize
-import pylab as pp
-
-# Определение системы ДУ
-def ode(y, t, k):
-    x1, x2 = y
-    a, b = k
-    return [x2, -a * x2 - b * x1 + 3]
-
-# Генерация данных
-true_a, true_b = 2, 2
-sol, t = integrate.odeint(ode, [0, 0], np.linspace(0, 10, 101), args=([true_a, true_b],))
-
-# Оценка параметров
-class ParameterEstimator:
-    # ... (полный код из примера выше)
-
-estimator = ParameterEstimator(t, sol[:, 0].reshape(-1, 1), ode)
-est_par, est_y0 = estimator.estimate(y0=[0, 0], guess=[1.5, 1.5])
-estimator.plot_result()
